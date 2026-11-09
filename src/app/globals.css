@@ -1,0 +1,346 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   CEA DESIGN SYSTEM
+   Brand tokens taken verbatim from the academy brand brief.
+   Restraint is the rule: cyan = interactive, green = progress,
+   purple = premium / selected.
+------------------------------------------------------------------- */
+
+@theme {
+  --color-void: #070b12;
+  --color-deep: #0d1420;
+  --color-panel: #0f1727;
+  --color-cyan: #00d9ff;
+  --color-green: #39ff88;
+  --color-violet: #885cff;
+  --color-ink: #f4f7fb;
+  --color-muted: #929eae;
+  --color-line: #1a2536;
+
+  --font-display: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-panel: 1.25rem;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-cyan) 30%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbar — technical, unobtrusive */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #060a10;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1d2a3d;
+    border-radius: 99px;
+    border: 2px solid #060a10;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a3d57;
+  }
+}
+
+@utility container-cea {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 84rem;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* ---------------- Surfaces ---------------- */
+@utility glass {
+  background: linear-gradient(
+    160deg,
+    rgba(21, 32, 48, 0.72) 0%,
+    rgba(11, 18, 29, 0.72) 100%
+  );
+  border: 1px solid rgba(146, 158, 174, 0.13);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+}
+
+@utility glass-soft {
+  background: rgba(13, 20, 32, 0.55);
+  border: 1px solid rgba(146, 158, 174, 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+@utility hairline {
+  border: 1px solid rgba(146, 158, 174, 0.12);
+}
+
+/* Glowing gradient border used sparingly on premium cards */
+@utility glow-edge {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      140deg,
+      rgba(0, 217, 255, 0.55),
+      rgba(136, 92, 255, 0.28) 40%,
+      rgba(146, 158, 174, 0.06) 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+@utility text-glow {
+  text-shadow: 0 0 24px rgba(0, 217, 255, 0.35);
+}
+
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(146, 158, 174, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(146, 158, 174, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility dot-bg {
+  background-image: radial-gradient(rgba(146, 158, 174, 0.14) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility noise {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    z-index: 2;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ---------------- Motion primitives ---------------- */
+@keyframes cea-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes cea-pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes cea-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes cea-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes cea-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes cea-dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@keyframes cea-grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 64px 64px;
+  }
+}
+
+@utility animate-marquee {
+  animation: cea-marquee 40s linear infinite;
+}
+
+@utility animate-float {
+  animation: cea-float 7s var(--ease-out-expo) infinite;
+}
+
+@utility animate-blink {
+  animation: cea-blink 2.4s ease-in-out infinite;
+}
+
+@utility animate-grid-drift {
+  animation: cea-grid-drift 24s linear infinite;
+}
+
+@utility scanline {
+  animation: cea-scan 7s linear infinite;
+}
+
+/* ---------------- Typography helpers ---------------- */
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  font-size: clamp(2.6rem, 7.2vw, 6.2rem);
+}
+
+@utility display-lg {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(2.1rem, 4.6vw, 3.9rem);
+}
+
+@utility display-md {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+}
+
+/* ---------------- Scroll reveal (IntersectionObserver driven) ------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------- Reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
